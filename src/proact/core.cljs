@@ -9,9 +9,9 @@
 
 (defn regex-replace [vars context]
     ;; exec the regex on a template string and then replace the results
-    (def parse_vars (js/RegExp "{{([^}}]+)}}"))
-    (def matches (.exec parse_vars vars))
+    (def template-regex (js/RegExp "{{([^}}]+)}}"))
+    (def matches (.exec template-regex vars))
     (def line (nth matches 1))
-    (def final_vars (template-parse line context))
-    final_vars
+    (def html-string (template-parse line context))
+    html-string
 )

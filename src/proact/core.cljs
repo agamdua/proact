@@ -1,17 +1,11 @@
 (ns proact.core
   (:require [clojure.browser.repl :as repl]))
 
-(defn template-parse [match context]
-    ;; eval a match and then if it works return it
-    (def res (.replace match (get (keyword (.split match #"\.") ) context)))
-    res
-)
-
-(defn regex-replace [vars context]
+(defn regex-replace [html-string context]
     ;; exec the regex on a template string and then replace the results
     (def template-regex (js/RegExp "{{([^}}]+)}}"))
-    (def matches (.exec template-regex vars))
-    (def line (nth matches 1))
-    (def html-string (template-parse line context))
-    html-string
+    (def matches (.exec template-regex html-string))
+    (def word (nth matches 1)) ;; the word to lookup
+    (def parsed-string (.replace html-string template-regex (get context (keyword word))))
+    parsed-string
 )
